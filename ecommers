@@ -1,0 +1,55 @@
+
+SELECT  id, email
+FROM `belajar-dmca-72427.Ecommarce.customer` 
+WHERE City='Depok'
+AND Gender='Female'
+ORDER BY id ASC
+
+
+SELECT customer_id, SUM(total) AS total_pembelian
+FROM `belajar-dmca-72427.Ecommarce.transaction` 
+GROUP By 1
+ORDER By 2 DESC
+LIMIT 10
+
+
+SELECT id, price
+FROM `belajar-dmca-72427.Ecommarce.product` 
+WHERE price < 10000
+ORDER BY id
+
+
+SELECT product_id, MAX(quantity) AS jumlah_terjual
+FROM `belajar-dmca-72427.Ecommarce.transaction`
+GROUP BY 1
+ORDER BY 2 DESC
+LIMIT 5
+
+
+SELECT DATE_TRUNC(DATE(created_at),MONTH),
+COUNT(DISTINCT product_id) AS jumlah_transaksi,
+SUM(quantity) AS produk_terjual, SUM(total) AS pendapatan
+FROM `belajar-dmca-72427.Ecommarce.transaction`
+GROUP BY 1
+ORDER BY 1 ASC
+
+
+SELECT city,
+SUM(total)total_belanja,
+AVG(total)avg_belanja
+FROM `belajar-dmca-72427.Ecommarce.transaction` a
+LEFT JOIN belajar-dmca-72427.Ecommarce.customer b
+    ON a. id=b. id
+WHERE CITY IS NOT NULL
+GROUP BY 1
+ORDER BY 2
+
+
+SELECT type,
+COUNT(DISTINCT customer_id)jumlah_costumer
+FROM belajar-dmca-72427.Ecommarce.transaction a
+RIGHT JOIN belajar-dmca-72427.Ecommarce.Store b
+   ON a. store_id=b. id
+WHERE total > 20000
+GROUP By 1
+ORDER BY 2 ASC
